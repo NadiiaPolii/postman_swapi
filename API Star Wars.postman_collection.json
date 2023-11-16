@@ -1,0 +1,223 @@
+{
+	"info": {
+		"_postman_id": "c84d4543-a2aa-4f42-baf1-82fc0edc47a0",
+		"name": "API Star Wars",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29223991"
+	},
+	"item": [
+		{
+			"name": "Check that the first person is Luke Skywalker",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonResponce = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Check is name is equal Luke\", function(){\r",
+							"    pm.expect(jsonResponce.name).to.eql(\"Luke Skywalker\");\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://swapi.dev/api/people/1",
+					"protocol": "http",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check that People birth_year = 19BBY",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsonResponce = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Check is birthday is equal birth_year\", function(){\r",
+							"    pm.expect(jsonResponce.birth_year).to.eql(\"19BBY\");\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/people/1/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check that the first movie is called \"A New Hope\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var response = pm.response.json();\r",
+							"var expectedFilmTitle = \"A New Hope\";\r",
+							"\r",
+							"pm.test(\"String films exests\", function() {\r",
+							"    pm.expect(response.films).to.exist;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"String films является массивом\", function() {\r",
+							"    pm.expect(response.films).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.sendRequest(response.films[0], function (err, res) {\r",
+							"    pm.test(\"First film is cslled A New Hope\", function() {\r",
+							"        pm.expect(res.json().title).to.equal(expectedFilmTitle);\r",
+							"    });\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/people/1/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"people",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check that the first planet \"population\" = \"200000\"",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"var response = pm.response.json();\r",
+							"var expectedPopulation = \"200000\";\r",
+							"\r",
+							"pm.sendRequest(response.planets[0], function (err, res) {\r",
+							"    pm.test(\"Request к первой планете\", function() {\r",
+							"        pm.expect(err).to.be.null;\r",
+							"    });\r",
+							"\r",
+							"    var planetData = res.json();\r",
+							"    pm.test(\"Население первой планеты равно 200000\", function() {\r",
+							"        pm.expect(planetData.population).to.equal(expectedPopulation);\r",
+							"    });\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/films/1/",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"films",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check that there is a ship named \"Executor\" in the Starship",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var response = pm.response.json();\r",
+							"var expectedShipName = \"Executor\";\r",
+							"\r",
+							"pm.test(\"Поле results существует и является массивом\", function() {\r",
+							"    pm.expect(response.results).to.exist;\r",
+							"    pm.expect(response.results).to.be.an('array');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Наличие корабля с именем 'Executor'\", function() {\r",
+							"    var executorShip = response.results.find(function(ship) {\r",
+							"        return ship.name === expectedShipName;\r",
+							"    });\r",
+							"    pm.expect(executorShip).to.exist;\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://swapi.dev/api/starships",
+					"protocol": "https",
+					"host": [
+						"swapi",
+						"dev"
+					],
+					"path": [
+						"api",
+						"starships"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
